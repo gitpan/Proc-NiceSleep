@@ -10,6 +10,10 @@ die "Pass dir and dist to examine, for example /dir and dist-0.32\n"
 	unless (scalar(@ARGV) > 1);
 my ($dir, $file) = @ARGV;
 
+if (-e "$file.tar.gz" && !(-e "$file")) {
+	print "$file does not exist but tarball does, extracting...\n";
+	print `tar -zxf $file.tar.gz`;
+} 
 chdir($dir) || die "Couldn't cd to $dir";
 if (-e "$file" && -e "$file.tar.gz") {
 	my $strip = $file;

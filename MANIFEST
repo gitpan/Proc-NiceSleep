@@ -1,9 +1,10 @@
-Changes
 NiceSleep.pm
 Makefile.PL
 example.pl
 MANIFEST
+Changes
 README
+LINKS
 TODO
 t/01-basicload.t
 t/02-nice.t
