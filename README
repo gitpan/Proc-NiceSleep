@@ -1,11 +1,11 @@
-Proc/NiceSleep version 0.50
+Proc/NiceSleep version 0.52
 
 STATUS
    This is BETA software; it seems to work, but use it at you own risk.
    The API is subject to change until release 0.75, at which point it
    will be considered stable. 
 
-   This module has been tested on linux, freebsd, and win32, but it 
+   This module has been tested on linux, freebsd, and win32, and
    should work on any machine that runs perl. Comments, ideas, bug 
    reports, patches, and ports are greatly appreciated.
 
@@ -16,7 +16,7 @@ ABSTRACT
 
    The Proc::NiceSleep module is available on the Comprehensive Perl Archive 
    Network (CPAN). The latest version should always be available at 
-   http://joshr.com/src/ ; http://cpan.perl.org/authors/id/J/JO/JOSHR/ 
+   http://joshr.com/src/; http://cpan.perl.org/authors/id/J/JO/JOSHR/ 
    and mirrors may lag behind.
 
 INSTALLATION
@@ -29,7 +29,7 @@ INSTALLATION
 
    or, if you use the CPAN shell, from the command line you can use:
 
-   perl -MCPAN -e 'install "Proc::NiceSleep"'
+   perl -MCPAN -e 'install Proc::NiceSleep'
 
 DEPENDENCIES 
    This module requires no other non-standard perl modules, 
@@ -41,8 +41,9 @@ NAME
 
 SYNOPSIS
       use Proc::NiceSleep qw( sleepfactor minruntime maybesleep nice ); 
-      nice(5);                 # lower our priority if our OS supports it 
-      sleepfactor(2);          # sleep 2x as long as we run
+      nice(5);                 # lower our priority, if our OS supports it 
+      maxload(1.1);            # max load we allow, if Sys::CpuLoad found
+      sleepfactor(.5);         # sleep 50% as long as we run
       minruntime(2);           # run at least 2 seconds without sleep
       while($somecondition) {
         dosomething();
@@ -50,13 +51,18 @@ SYNOPSIS
       }
 
 DESCRIPTION
-    Proc::NiceSleep is a Perl 5 module which defines subroutines to allow a
+    Proc::NiceSleep is a Perl module which defines subroutines to allow a
     process to yield use of the system in a method consistent with the
-    configured policy.
+    configured policy. Proc::NiceSleep is intended for use in situations
+    where the operating system does not support priorities, or where using
+    the operating system's built-in priorities does not yield the system
+    sufficiently.
 
-    Proc::NiceSleep is intended for use in situations where the operating
-    system does not support priorities, or where using the operating
-    system's built-in priorities does not yield the system sufficiently.
+    By default Proc::NiceSleep expects to yield the process for an amount of
+    time equal to one tenth the amount of time the runs without sleeping.
+    This is expressed by the default Sleep Factor of 0.10. Proc::NiceSleep
+    can also be configured to attempt to keep the average system load below
+    a certain threshhold through use of the maxload() function.
 
     A convenient nice() function, which acts much like the shell command and
     executable of the same name, is also provided for easy, platform
@@ -68,12 +74,31 @@ DESCRIPTION
     error will be issued but Proc::NiceSleep operations will occur with a
     granularity of about one second.
 
-    By default Proc::NiceSleep expects to yield the process for an amount of
-    time equal to the amount of time that process runs without sleeping
-    (wallclock time). This is expressed by the default Sleep Factor of 1.0.
+    The following functions can be imported from this module.
 
-    The following functions can be imported from this module. No functions
-    are exported by default.
+    maybesleep ()
+        Checks to see if this process should yield use of the system by
+        issuing some kind of sleep at this point, and if so, does so for an
+        appropriate amount of time. Returns 0 if no sleep was performed,
+        otherwise returns the amount of seconds we think maybesleep()
+        actually slept for.
+
+    maxload ()
+        Set or gets the maximum 1-minute average load allowed to occur
+        before a sleep call will be issued by maybesleep(). The default
+        value of 0 disables this feature; setting the maximum load will only
+        have an effect if Sys::CpuLoad is successfully loaded. This module
+        will check the system load no more than about once per second. If
+        both sleepfactor() and maxload() are used then maybesleep() will
+        yield the system if either condition is met.
+
+    sleepfactor ()
+        Sets or gets the sleep factor depending on whether a number is
+        passed or not. A sleep factor of 1 means to sleep an equal amount of
+        time as we run, 2 means to sleep twice as long, and so on. The
+        default value is 0.1. If the sleep factor is set to zero, then this
+        feature is disabled. If both sleepfactor() and maxload() are used
+        then maybesleep() will yield the system if either condition is met.
 
     nice ()
         Sets or gets the priority of the process, as understood by the
@@ -85,38 +110,37 @@ DESCRIPTION
         return 0.
 
         The exact nice() values returned and recognized, and their meanings
-        to the system, are system dependent, but usually range from about
-        -20 (signifying highest priority) to 20 (signifying lowest priority,
-        'nicest').
-
-    maybesleep ()
-        Checks to see if this process should yield use of the system by
-        issuing some kind of sleep at this point, and if so, does so for an
-        appropriate amount of time. Returns 0 if no sleep was performed,
-        otherwise returns the amount of seconds we think maybesleep()
-        actually slept for.
-
-    sleepfactor ()
-        Sets or gets the sleep factor depending on whether a number is
-        passed or not. A sleep factor of 1 means to sleep an equal amount of
-        time as we run, 2 means to sleep twice as long, and so on. The
-        default value is 1.
+        to the system, are system dependent but usually range from about -20
+        (highest priority) to 20 (lowest priority, 'nicest').
 
     minruntime ()
         Sets or gets the minimum run time, in seconds, depending on whether
         a number is passed or not. The minumum run time is the least amount
         of time that Proc::NiceSleep will allow the process to run between
-        sleeps. The default value is 1.
+        sleeps. The default value is 1 second.
+
+    minsleeptime ()
+        Sets or gets the minimum amount time, in seconds, that maybesleep()
+        will sleep for if it detects that a sleep is appropriate. Setting
+        the minimum sleep time to zero (which is also the default value)
+        will disable this feature.
+
+    DumpText ()
+        Returns a string (intended for display) containing multiple lines
+        with internal information about Proc::NiceSleep's runtime
+        configuration and statistics. The format and contents of the
+        returned string are intended for informational and debugging use and
+        are subject to change.
 
     Dump ()
         Returns a reference to a hash with internal information about
         Proc::NiceSleep configuration and statistics. The names and presence
-        of Dump()'s returned hash names and values are for informational and
-        debugging purposes only and are subject to change without notice.
-        Modifying this hash will have no effect on the operation of
-        Proc::NiceSleep
+        of the returned hash names and values are for informational and
+        debugging purposes only and are subject to change. Modifying the
+        returned hash will have no effect on the operation of
+        Proc::NiceSleep.
 
-    Proc::NiceSleep is loosely modeled on Lincoln Stein's CGI.pm and on D.
+    Proc::NiceSleep is loosely modeled on Lincoln Stein's CGI.pm, and on D.
     Wegscheid and other's Time::HiRes.pm.
 
 EXPORT
@@ -134,7 +158,7 @@ CAVEATS
     less than specified via Proc::NiceSleep policies.
 
 SEE ALSO
-    Time::HiRes, Proc::Queue, Proc::Swarm
+    Time::HiRes, Sys::CpuLoad, Proc::Queue, Proc::Swarm
 
 COPYRIGHT
       Copyright (c) 2002 Josh Rabinowitz

@@ -1,5 +1,7 @@
 Revision history for Perl module Proc::NiceSleep.
 
+0.52  Sat Feb 23 2002
+      - updated README
 0.51  Sat Feb 23 2002
       - added maxload() feature, rewrote maybesleep() for it,
         documented it, wrote test and example2.pl for it
