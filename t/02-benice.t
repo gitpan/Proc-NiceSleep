@@ -9,9 +9,9 @@ use Test;	# using Test::Simple as rec'd in perldoc Test
 BEGIN { plan tests => 1 };	# not needed by Test::Simple, only by Test
 use Proc::NiceSleep qw(nice);
 
-ok(1, testnice());				# we're ok if this didn't gak
+ok(1, test_nice());				# we're ok if this didn't gak
 
-sub testnice {
+sub test_nice {
 	my $setto = nice(5);	# set to priority 5
 	my $nice = nice(); 
 	#print "$setto, $nice\n";

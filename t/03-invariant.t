@@ -8,7 +8,7 @@
 use Test;
 BEGIN { plan tests => 1 };	# not needed by Test::Simple, only by Test
 
-use Proc::NiceSleep qw( maybesleep );	# Invariant is 'private'
+use Proc::NiceSleep qw( maybe_sleep );	# Invariant is 'private'
 
 ok(1, Proc::NiceSleep::Invariant()); # does it return 1?
 

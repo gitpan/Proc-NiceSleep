@@ -12,17 +12,17 @@ use Test;
 
 BEGIN { plan tests => 1 };	# not needed by Test::Simple, only by Test
 
-use Proc::NiceSleep qw(maybesleep minruntime sleepfactor);	
+use Proc::NiceSleep qw(maybe_sleep min_run_time sleep_factor);	
 
-ok(1, testsleep1()); # If we made it this far, we're ok.  
+ok(1, test_sleep()); # If we made it this far, we're ok.  
 
 # on win32 with Time::HiRes, we found that sleep() sometime
 # seemed to sleep very briefly. hence the repeats of sleep() and
 # maybesleep()
-sub testsleep1 {
+sub test_sleep {
 	print "Sleeping about 1 seconds...\n";	# we try to do this fast
-	minruntime(0);
-	sleepfactor(.7);
+	min_run_time(0);
+	sleep_factor(.7);
 
 	my $t1 = Proc::NiceSleep::time();
 	while(Proc::NiceSleep::time() - $t1 <= 1.5) {
@@ -30,14 +30,14 @@ sub testsleep1 {
 		# successive sleeps for at least 1.5 apparent seconds
 	}
 
-	maybesleep();	# in case one of these returns too fast,
-	maybesleep();	# we call it extra times...
-	maybesleep();	# they should have no effect
-	maybesleep();	# they should have no effect
-	maybesleep();	# they should have no effect :)
+	maybe_sleep();	# in case one of these returns too fast,
+	maybe_sleep();	# we call it extra times...
+	maybe_sleep();	# they should have no effect
+	maybe_sleep();	# they should have no effect
+	maybe_sleep();	# they should have no effect :)
 
 	my $t2 = Proc::NiceSleep::time();
 	my $t = $t2 - $t1;
-	return ($t > 2.0);	# maybesleep()s should have slept ~1.5 seconds
+	return ($t > 2.0);	# maybe_sleep()s should have slept ~1.5 seconds
 }
 
