@@ -10,6 +10,6 @@ BEGIN { plan tests => 1 };	# not needed by Test::Simple, only by Test
 
 use Proc::NiceSleep qw( maybesleep );	# Invariant is 'private'
 
-ok(Proc::NiceSleep::Invariant()); # does it return 1?
+ok(1, Proc::NiceSleep::Invariant()); # does it return 1?
 
 

@@ -1,0 +1,58 @@
+#!/usr/local/bin/perl -w
+# this is a short example that illustrates use of Proc::NiceSleep
+
+# Copyright (c) 2002 Josh Rabinowitz, All rights reserved
+# This program is free software; you can redistribute it and/or modify
+# it under the same terms as Perl itself.
+
+use strict; 
+
+use Proc::NiceSleep qw(:all);
+eval ('require Sys::CpuLoad');
+if($@) { die "Sys::CpuLoad required for Proc::NiceSleep::maxload() to work"; }
+
+# Proc::NiceSleep does not _require_ Sys::CpuLoad, but 
+# the maxload() option will have no effect if it is not found.
+# So we go ahead and use it for illustrative purposes in this script.  
+
+nice(5);	# lower our priority if possible
+print "-----------------------------------------------\n";
+print "-- Informational Data About Proc::NiceSleep: --\n";
+print Proc::NiceSleep::DumpText(); # show what went on inside 
+testload();
+print "-----------------------------------------------\n";
+print "-- Informational Data About Proc::NiceSleep: --\n";
+print Proc::NiceSleep::DumpText(); # show what went on inside 
+exit(0);	# we're all finished here for now
+
+## now, test load feature... this might not work
+# if the system is being used by other processes, but
+# you can get the idea here...  
+sub testload {
+	my ($load1, $load5, $load15) = Sys::CpuLoad::load();
+	showmessage("Setting maxload to " . sprintf("%.2f", $load1 + 0.01));
+	maxload($load1 + 0.01);	
+	sleepfactor(0);
+	my $t1 = Proc::NiceSleep::time();
+	my $lastshowtime = 0;
+	while(Proc::NiceSleep::time() - $t1 < 10) {	# for up to 10 seconds...	
+		my $t2 = Proc::NiceSleep::time();
+		my ($load) = Sys::CpuLoad::load();	# get 1 min load
+		showmessage("working... load is $load.");
+		while(Proc::NiceSleep::time() - $t2 < 1) {	# for one second...
+			for (my $i=0; $i < 1000; $i++) { my $b = $i + $i; }	# work!
+		}
+		($load) = Sys::CpuLoad::load();	# get 1 min load
+		if (my $l = maybesleep()) {
+			showmessage("Slept " . sprintf("%1.2f", $l) . "s, load is $load.");
+		}
+	} 
+}
+
+########## UTILITY FUNCTIONS BELOW ################
+sub showmessage { 
+	my $message = shift; 
+	printf("%-30s %s\n", $message, scalar(localtime(time())));
+}
+
+

@@ -8,7 +8,7 @@
 use Test;
 BEGIN { plan tests => 1 };
 use Proc::NiceSleep;
-ok(1); # If we made it this far, we're ok.
+ok(1,1); # If we made it this far, we're ok.
 
 #########################
 

@@ -14,7 +14,7 @@ BEGIN { plan tests => 1 };	# not needed by Test::Simple, only by Test
 
 use Proc::NiceSleep qw(maybesleep minruntime sleepfactor);	
 
-ok(testsleep1()); # If we made it this far, we're ok.  
+ok(1, testsleep1()); # If we made it this far, we're ok.  
 
 # on win32 with Time::HiRes, we found that sleep() sometime
 # seemed to sleep very briefly. hence the repeats of sleep() and
