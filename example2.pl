@@ -44,7 +44,8 @@ sub test_load {
 		}
 		($load) = Sys::CpuLoad::load();	# get 1 min load
 		if (my $l = maybe_sleep()) {
-			show_message("Slept " . sprintf("%1.1f", $l) . "s, load is " . sprintf("%.2f",  $load) . "." );
+			show_message("Slept " . sprintf("%1.1f", $l) . 
+				"s, load is " . sprintf("%.2f",  $load) . "." );
 		}
 	} 
 }

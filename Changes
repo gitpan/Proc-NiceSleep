@@ -1,4 +1,6 @@
 Revision history for Perl module Proc::NiceSleep.
+0.55  Fri Mar 15 2002
+      - fixed links to mailing lists in LINKS file
 0.54  Fri Mar 15 2002
       - modified maybe_sleep() to maintain sleepfactor correctly
       - modified and amended perldocs and LINKS file, partially to include...

@@ -10,14 +10,14 @@ joshr.com source home page:
 MAILING LIST LINKS
 There is a mailing list for discussion of all aspects of Proc::NiceSleep use
 at
-  http://mail.joshr.com/mailman/lists/proc-nicesleep/
+  http://mail.joshr.com/mailman/listinfo/proc-nicesleep/
 
-and a list for discussions of a more development related issues at
-  http://mail.joshr.com/mailman/lists/proc-nicesleep-dev/
+and a list for discussions of a more development-related nature at
+  http://mail.joshr.com/mailman/listinfo/proc-nicesleep-dev/
 
 there is also a very occasionally used list with announcements about
 Proc::NiceSleep, information about it can be found at
-  http://mail.joshr.com/mailman/lists/proc-nicesleep-announce/
+  http://mail.joshr.com/mailman/listinfo/proc-nicesleep-announce/
 
 REFERENCE LINKS
 Here's the reference to the original posting to the perl modules 
