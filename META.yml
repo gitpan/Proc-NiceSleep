@@ -1,6 +1,6 @@
 #XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#
 name:         Proc-NiceSleep
-version:      0.75
+version:      0.76
 version_from: NiceSleep.pm
 installdirs:  site
 requires:

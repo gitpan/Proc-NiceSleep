@@ -1,9 +1,6 @@
-Proc/NiceSleep version 0.57
+Proc/NiceSleep version 0.76
 
 STATUS
-   This is BETA software.  The API is subject to change until 
-   release 0.75, at which point it will be considered stable. 
-
    This module has been tested on linux, freebsd, and win32, and
    should work on any machine that runs perl. Comments, ideas, bug 
    reports, patches, and ports are greatly appreciated.

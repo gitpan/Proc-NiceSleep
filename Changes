@@ -1,4 +1,6 @@
 Revision history for Perl module Proc::NiceSleep.
+0.76  Sun Jun 27 2004
+      - updated README
 0.75  Sun Jun 27 2004
       - avoid warnings in example2.pl if no Proc::ProcessTable 
 0.59  Fri Jan 09 2004
