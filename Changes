@@ -1,4 +1,6 @@
 Revision history for Perl module Proc::NiceSleep.
+0.56  Fri Mar 15 2002
+      - updated version number in README
 0.55  Fri Mar 15 2002
       - fixed links to mailing lists in LINKS file
 0.54  Fri Mar 15 2002

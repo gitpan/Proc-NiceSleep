@@ -16,7 +16,7 @@ require Exporter;
 
 # We do 'use vars' like this so we can work nice in old perls
 use vars qw($VERSION);
-$VERSION = '0.55';
+$VERSION = '0.56';
 
 # these are 'public'
 use vars qw ( %EXPORT_TAGS @EXPORT_OK @ISA );
