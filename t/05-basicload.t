@@ -34,7 +34,7 @@ sub test_load {
 	my $load1 = Sys::CpuLoad::load();
 	max_load(.01);
 	my $t1 = Proc::NiceSleep::time();
-	while(Proc::NiceSleep::time() - $t1 < 10) {	# for up to 10 seconds...
+	while(Proc::NiceSleep::time() - $t1 < 5) {	# for up to 5 seconds...
 		for (my $i=0; $i < 10000; $i++) { my $b = $i + $i; }	# work!
 		my $load2 = Sys::CpuLoad::load();
 		return 1 if ( ($load2 > $load1 && maybe_sleep()) || maybe_sleep());	

@@ -1,15 +1,14 @@
 NiceSleep.pm
 Makefile.PL
-example1.pl
-example2.pl
+examples/example1.pl
+examples/example2.pl
+examples/example3.pl
 MANIFEST
 Changes
 README
-LINKS
 t/01-use.t
 t/02-benice.t
 t/03-invariant.t
 t/04-basicsleep.t
 t/05-basicload.t
-util/updatelatest.pl
 META.yml                                Module meta-data (added by MakeMaker)

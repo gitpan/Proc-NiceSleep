@@ -22,12 +22,12 @@ ok(1, test_sleep()); # If we made it this far, we're ok.
 sub test_sleep {
 	print "Sleeping about 1 seconds...\n";	# we try to do this fast
 	min_run_time(0);
-	sleep_factor(.7);
+	sleep_factor(1.1);
 
 	my $t1 = Proc::NiceSleep::time();
-	while(Proc::NiceSleep::time() - $t1 <= 1.5) {
+	while(Proc::NiceSleep::time() - $t1 <= 1) {
 		Proc::NiceSleep::sleep(.5);	
-		# successive sleeps for at least 1.5 apparent seconds
+		# successive sleeps for at least 1 apparent second
 	}
 
 	maybe_sleep();	# in case one of these returns too fast,

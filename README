@@ -1,67 +1,23 @@
-Proc/NiceSleep version 0.82
-
-ABSTRACT
-   Proc::NiceSleep is a Perl module which defines simple functions
-   to allow a process to yield use of the system in an intelligent
-   manner. See SYNOPSIS and DESCRIPTION below for details.
-
-   The Proc::NiceSleep module is available on the Comprehensive Perl Archive 
-   Network (CPAN). The latest version should always be available at 
-   http://joshr.com/src/; http://cpan.perl.org/authors/id/J/JO/JOSHR/ 
-   and mirrors may lag behind.
-
-INSTALLATION
-   To install this module type the following:
-
-   perl Makefile.PL
-   make
-   make test
-   make install
-
-   or, if you use the CPAN shell, from the command line you can use:
-
-   perl -MCPAN -e 'install Proc::NiceSleep'
-
-DEPENDENCIES 
-   This module requires no other non-standard perl modules, 
-   but will perform with sub-second resolution only if Time::HiRes is 
-   detected and supports it. For the load functions to have an effect, 
-   Sys::CpuLoad must be found and successfully loaded.
-
 NAME
     Proc::NiceSleep - yield system in an intelligent fashion
 
 SYNOPSIS
       use Proc::NiceSleep qw( :all ); 
-      nice(5);                  # lower our priority, if our OS supports it 
-      max_load(1.1);            # max load we allow, if Sys::CpuLoad found
-      sleep_factor(.5);         # sleep 50% as long as we run
-      min_run_time(2);          # run at least 2 seconds without sleep
+      nice(5);              # lower our priority, if our OS supports it 
+      max_load(1.1);        # max load we allow, if GetCpuLoad can find loads
+      sleep_factor(.5);     # sleep 50% as long as we run
+      min_run_time(2);      # run at least 2 seconds without sleep
       while($somecondition) {
         #dosomething();
-        $slept = maybe_sleep(); # sleep some amount of time if appropriate 
+        $slept = maybe_sleep(); # sleep some amount of time if needed 
       }
 
-  GETTING HELP
-    If you have questions about Proc::NiceSleep, you can get help from the
-    proc-nicesleep-at-joshr.com mailing list (replace -at- with @). You can
-    subscribe to the list by sending the word 'subscribe' (no quotes) in the
-    body of an email to
-
-             proc-nicesleep-request-at-joshr.com
-
-    There is also a Proc::NiceSleep announcement mailing list, to subscribe
-    send an email with just the word 'subscribe' in the email to
-
-             proc-nicesleep-announce-request-at-joshr.com
-
 DESCRIPTION
-    Proc::NiceSleep is a Perl module which defines subroutines to allow a
-    process to yield use of the system in a method consistent with the
-    configured policy. Proc::NiceSleep is intended for use in situations
-    where the operating system does not support priorities, or where using
-    the operating system's built-in priorities does not yield the system
-    sufficiently.
+    Proc::NiceSleep defines subroutines to allow a process to yield use of
+    the system according to a configured policy. Proc::NiceSleep is intended
+    for use in situations where the operating system does not support
+    priorities, or where using the operating system's built-in priorities
+    does not yield the system sufficiently.
 
     By default Proc::NiceSleep expects to yield the process for one tenth
     the amount of time that process runs. This is expressed by the default
@@ -93,10 +49,12 @@ DESCRIPTION
         Set or gets the maximum 1-minute average load allowed to occur
         before a sleep call will be issued by maybe_sleep(). The default
         value of 0 disables this feature; setting the maximum load will only
-        have an effect if Sys::CpuLoad is successfully loaded. This module
-        will check the system load no more than about once per second. If
-        both sleep_factor() and max_load() are used then maybe_sleep() will
-        yield the system if either condition is met.
+        have an effect if Sys::CpuLoad is successfully loaded (or an
+        alternate load retrieval function is provided through
+        load_function()). This module will check the system load no more
+        than about once per second. If both sleep_factor() and max_load()
+        are used then maybe_sleep() will yield the system if either
+        condition is met.
 
     sleep_factor ()
         Sets or gets the sleep factor depending on whether a number is
@@ -112,8 +70,8 @@ DESCRIPTION
         priority of the process to the value specified, and returns that
         value. If no parameter is passed, nice() attempts to query the
         operating system for the priority of the process and return it. If
-        your OS doesn't support priorities then nice() will likely always
-        return 0.
+        your OS doesn't support priorities then nice() will likely have no
+        effect and always return 0.
 
         The exact nice() values returned and recognized, and their meanings
         to the system, are system dependent but usually range from about -20
@@ -123,13 +81,32 @@ DESCRIPTION
         Sets or gets the minimum run time, in seconds, depending on whether
         a number is passed or not. The minumum run time is the least amount
         of time that Proc::NiceSleep will allow the process to run between
-        sleeps. The default value is 0.01 seconds.
+        sleeps. The default value is 0 seconds.
 
     min_sleep_time ()
         Sets or gets the minimum amount time, in seconds, that maybe_sleep()
-        will sleep for if it detects that a sleep is appropriate. Setting
-        the minimum sleep time to zero (which is also the default value)
-        will disable this feature.
+        will sleep for if it detects that a sleep is appropriate. The
+        default it 0.
+
+    over_load_min_sleep_time ()
+        Sets or gets the minimum amount time, in seconds, that maybe_sleep()
+        will sleep when the load has gone above the max_load(). The default
+        is 3.5 seconds.
+
+    over_load_sleep_drift ()
+        Sets or gets the 'drift' in the amount time, that maybe_sleep() will
+        sleep when the load has gone above the value set with max_load().
+        The actual amount of time chosen to sleep will be between
+        over_load_min_sleep_time() and over_load_min_sleep_time() + ( 4 *
+        (curload - targetload) * over_load_sleep_drift() ) seconds (that is,
+        it will sleep longer as the system load goes up.) The default is
+        over_load_sleep_drift is 1.
+
+    load_function( \&function )
+        Sets or gets a reference to a function to be used by maybe_sleep()
+        that returns numbers that should be considered the 1, 5, and
+        15-minute average system loads. (Only the 1-minute average is used).
+        Set to undef (the default) to use your system's load.
 
     DumpText ()
         Returns a string (intended for display) containing multiple lines
@@ -162,11 +139,6 @@ CAVEATS
     your perl program may cause your program to yield the system more or
     less than specified via Proc::NiceSleep policies.
 
-STATUS
-   This module has been tested on linux, freebsd, and win32, and
-   should work on any machine that runs perl. Comments, ideas, bug 
-   reports, patches, and ports are greatly appreciated.
-
 SEE ALSO
     Time::HiRes, Sys::CpuLoad
 
@@ -179,4 +151,47 @@ ACKNOWLEDGEMENTS
     Proc::NiceSleep is loosely modeled on Lincoln Stein's CGI.pm, and on D.
     Wegscheid and other's Time::HiRes.pm. Thanks to Michael G Schwern,
     Terrence Brannon, and David Alban for their valuable input.
+
+LINKS
+            http://search.cpan.org/~joshr/  : CPAN home page
+            http://joshr.com/src/           : my website
+
+  MAILING LISTS
+    There is a mailing list for discussion of all aspects of Proc::NiceSleep
+    use at http://mail.joshr.com/mailman/listinfo/proc-nicesleep/
+
+    and a list for discussions of a more development-related nature at
+    http://mail.joshr.com/mailman/listinfo/proc-nicesleep-dev/
+
+    there is also a very occasionally used list with announcements about
+    Proc::NiceSleep, information about it can be found at
+    http://mail.joshr.com/mailman/listinfo/proc-nicesleep-announce/
+
+  REFERENCE LINKS
+    Here's the reference to the original posting to the perl modules list
+    requesting the namespace Proc::NiceSleep, and offering a rationale for
+    its acceptance and use:
+
+      http://www.xray.mpe.mpg.de/mailing-lists/modules/2002-02/msg00329.html
+
+    The Proc::NiceSleep info page on search.cpan.org is a good place to
+    start: http://search.cpan.org/~joshr/Proc-NiceSleep/
+
+    This module's 'perl-testers' status, on testers.cpan.org (Proc-NiceSleep
+    was first covered by perl-testers Feb 21 2002):
+
+      http://testers.cpan.org/show/Proc-NiceSleep.html
+
+GETTING HELP
+    If you have questions about Proc::NiceSleep, you can get help from the
+    proc-nicesleep-at-joshr.com mailing list (replace -at- with @). You can
+    subscribe to the list by sending the word 'subscribe' (no quotes) in the
+    body of an email to
+
+             proc-nicesleep-request-at-joshr.com
+
+    There is also a Proc::NiceSleep announcement mailing list, to subscribe
+    send an email with just the word 'subscribe' in the email to
+
+             proc-nicesleep-announce-request-at-joshr.com 
 
