@@ -1,5 +1,9 @@
 Revision history for Perl module Proc::NiceSleep.
-
+0.54  Fri Mar 15 2002
+      - modified maybe_sleep() to maintain sleepfactor correctly
+      - modified and amended perldocs and LINKS file, partially to include...
+      - new discussion and announcement mailing lists announced.
+      - we show floating point numbers nicer in DumpText
 0.53  Fri Mar 01 2002
       - renamed public functions from likethis() to like_this(),
         added temporary legacy old-style funcs

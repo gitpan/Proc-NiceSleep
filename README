@@ -1,4 +1,4 @@
-Proc/NiceSleep version 0.53
+Proc/NiceSleep version 0.54
 
 STATUS
    This is BETA software.  The API is subject to change until 
@@ -49,6 +49,18 @@ SYNOPSIS
         $slept = maybe_sleep(); # sleep some amount of time if appropriate 
       }
 
+  GETTING HELP
+    If you have questions about Proc::NiceSleep, you can get help from the
+    proc-nicesleep@joshr.com mailing list. You can subscribe to the list by
+    sending the word 'subscribe' (no quotes) in the body of an email to
+
+             proc-nicesleep-request-at-joshr.com
+
+    There is also a Proc::NiceSleep announcement mailing list, to subscribe
+    send an email with just the work 'subscribe' in the email to
+
+             proc-nicesleep-announce-request-at-joshr.com
+
 DESCRIPTION
     Proc::NiceSleep is a Perl module which defines subroutines to allow a
     process to yield use of the system in a method consistent with the
@@ -71,7 +83,8 @@ DESCRIPTION
     and your operating system supports it then timing and yielding
     operations will occur with sub-second granularity. If not, no warning or
     error will be issued but Proc::NiceSleep operations will occur with a
-    granularity of about one second.
+    granularity of about one second. Sys::CpuLoad must be found for
+    max_load() to have any effect.
 
     The following functions can be imported from this module.
 
@@ -79,8 +92,8 @@ DESCRIPTION
         Checks to see if this process should yield use of the system by
         issuing some kind of sleep at this point, and if so, does so for an
         appropriate amount of time. Returns 0 if no sleep was performed,
-        otherwise returns the amount of seconds we think maybe_sleep()
-        actually slept for.
+        otherwise returns the amount of seconds maybe_sleep() actually slept
+        for.
 
     max_load ()
         Set or gets the maximum 1-minute average load allowed to occur
@@ -146,15 +159,17 @@ AUTHOR
     Josh Rabinowitz, <joshr-proc-nicesleep@joshr.com>
 
 CAVEATS
-    sleep_factor() and min_run_time() require numeric parameters if present,
-    but no check is made that the passed scalar is a number.
+    The meanings of values accepted by nice() may vary between operating
+    systems (e.g. HP-UX). This problem is to be addressed in future
+    revisions to this package; for now be advised that use of nice() is not
+    necessarily portable.
 
     Uncoordinated use of sleep() (and possibly of signal() and alarm()) in
     your perl program may cause your program to yield the system more or
     less than specified via Proc::NiceSleep policies.
 
 SEE ALSO
-    Time::HiRes, Sys::CpuLoad, Proc::Queue, Proc::Swarm
+    Time::HiRes, Sys::CpuLoad
 
 COPYRIGHT
       Copyright (c) 2002 Josh Rabinowitz

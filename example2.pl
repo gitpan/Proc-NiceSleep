@@ -38,13 +38,13 @@ sub test_load {
 	while(Proc::NiceSleep::time() - $t1 < 10) {	# for up to 10 seconds...	
 		my $t2 = Proc::NiceSleep::time();
 		my ($load) = Sys::CpuLoad::load();	# get 1 min load
-		show_message("working... load is $load.");
+		show_message("Working...  load is " . sprintf("%.2f",  $load) . "." );
 		while(Proc::NiceSleep::time() - $t2 < 1) {	# for one second...
 			for (my $i=0; $i < 1000; $i++) { my $b = $i + $i; }	# work!
 		}
 		($load) = Sys::CpuLoad::load();	# get 1 min load
 		if (my $l = maybe_sleep()) {
-			show_message("Slept " . sprintf("%1.2f", $l) . "s, load is $load.");
+			show_message("Slept " . sprintf("%1.1f", $l) . "s, load is " . sprintf("%.2f",  $load) . "." );
 		}
 	} 
 }
