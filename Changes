@@ -1,4 +1,8 @@
 Revision history for Perl module Proc::NiceSleep.
+0.77  Tue Aug 31 2004
+      - added over_load_min_sleep_time() & over_load_sleep_drift()
+      - added GetCpuLoad() for OS X,
+      - changed DumpText() to show load output like '0.1 0.2 0.11'
 0.76  Sun Jun 27 2004
       - updated README
 0.75  Sun Jun 27 2004
@@ -6,8 +10,8 @@ Revision history for Perl module Proc::NiceSleep.
 0.59  Fri Jan 09 2004
       - Fixed check of Sys::CpuLoad.
 0.58  Fri Jan 09 2004
-      - Sys::CpuLoad test now checks load() doesn't returns 
-        undefs (OS X and others?).
+      - Sys::CpuLoad test now checks load() doesn't return
+        undefs (for OS X and others).
 0.57  Tue Apr 23 2002
       - fixed maybe_sleep() for case when both max_sleep and max_load are set
 0.56  Fri Mar 15 2002

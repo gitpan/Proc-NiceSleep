@@ -9,7 +9,9 @@ use strict;
 
 use Proc::NiceSleep qw(:all);
 eval ('require Sys::CpuLoad');
-if($@) { die "Sys::CpuLoad required for Proc::NiceSleep::max_load() to work"; }
+if($@) { warn "Sys::CpuLoad or 'uptime' required for Proc::NiceSleep::max_load() to work"; }
+
+print "Using Proc::NiceSleep v$Proc::NiceSleep::VERSION\n";
 
 # Proc::NiceSleep does not _require_ Sys::CpuLoad, but 
 # the max_load() option will have no effect if it is not found.
@@ -29,7 +31,7 @@ exit(0);	# we're all finished here for now
 # if the system is being used by other processes, but
 # you can get the idea here...  
 sub test_load {
-	my ($load1, $load5, $load15) = Sys::CpuLoad::load();
+	my ($load1, $load5, $load15) = Proc::NiceSleep::GetCpuLoad();
 	$load1 ||= 0;
 	show_message("Setting max_load to " . sprintf("%.2f", $load1 + 0.01));
 	max_load($load1 + 0.01);	
@@ -38,13 +40,15 @@ sub test_load {
 	my $lastshowtime = 0;
 	while(Proc::NiceSleep::time() - $t1 < 10) {	# for up to 10 seconds...	
 		my $t2 = Proc::NiceSleep::time();
-		my ($load) = Sys::CpuLoad::load() || 0;	# get 1 min load
+		my ($load, $load5, $load15) = Proc::NiceSleep::GetCpuLoad();
 		show_message("Working...  load is " . sprintf("%.2f",  $load) . "." );
 		while(Proc::NiceSleep::time() - $t2 < 1) {	# for one second...
 			for (my $i=0; $i < 1000; $i++) { my $b = $i + $i; }	# work!
 		}
-		($load) = Sys::CpuLoad::load();	# get 1 min load
-		if (my $l = maybe_sleep()) {
+		($load) = Proc::NiceSleep::GetCpuLoad();	# get load
+		#if (my $l = maybe_sleep()) {
+		{ 
+			my $l = maybe_sleep();
 			show_message("Slept " . sprintf("%1.1f", $l) . 
 				"s, load is " . sprintf("%.2f",  $load) . "." );
 		}
