@@ -1,4 +1,6 @@
 Revision history for Perl module Proc::NiceSleep.
+0.59  Fri Jan 09 2004
+      - Fixed check of Sys::CpuLoad.
 0.58  Fri Jan 09 2004
       - Sys::CpuLoad test now checks load() doesn't returns 
         undefs (OS X and others?).
