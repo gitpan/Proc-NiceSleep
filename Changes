@@ -1,21 +1,26 @@
 Revision history for Perl extension Proc::NiceSleep.
 
-0.01  Sat Feb 16 10:56:19 2002
+0.01  Sat Feb 16 2002
 	- original version; created by h2xs 1.21 with options
 		-X -n Proc::NiceSleep
-0.36  Mon Feb 18 12:00:00 2002
+0.36  Mon Feb 18 2002
     - add nice() function
-0.41  Mon Feb 18 17:16:23 2002
+0.41  Mon Feb 18 2002
     - changed named from Time::SmartSleep
-0.46  Tue Feb 19 17:58:52 2002
+0.46  Tue Feb 19 2002
     - uploaded to CPAN at
       http://cpan.perl.org/authors/id/J/JO/JOSHR/
-0.47  Tue Feb 19 19:42:25 2002
+0.47  Tue Feb 19 2002
     - more doc changes
 0.48  Wed Feb 20 2002
     - docs reflect that we're in cpan and pause
     - added LINKS file to dist
     - removed DataDumper from example
     - made work with perl-5.004
-
+0.49  Wed Feb 20 2002
+	- doc correction
+0.50  Wed Feb 20 2002
+    - basicsleep test modified for win32
+    - cleaned up example, added cpan-testers status page
+      to LINKS
 
