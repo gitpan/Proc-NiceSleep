@@ -12,7 +12,7 @@ use Proc::NiceSleep qw(:all);
 
 nice(5);	# lower our priority if possible 
 
-min_run_time(1);	# how long to run without interruption
+min_run_time(0.001);	# how long to run without interruption
 
 sleep_factor(1);	# sleepfactor = sleeptime / non-sleeptime, ie,
 	# successive calls of maybesleep() will cause Proc::NiceSleep to

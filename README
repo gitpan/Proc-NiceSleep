@@ -1,4 +1,4 @@
-Proc/NiceSleep version 0.56
+Proc/NiceSleep version 0.57
 
 STATUS
    This is BETA software.  The API is subject to change until 
@@ -33,7 +33,8 @@ INSTALLATION
 DEPENDENCIES 
    This module requires no other non-standard perl modules, 
    but will perform with sub-second resolution only if Time::HiRes is 
-   detected and supports it.
+   detected and supports it. For the load functions to have an effect, 
+   Sys::CpuLoad must be found and successfully loaded.
 
 NAME
     Proc::NiceSleep - yield system in a quasi-intelligent fashion
@@ -51,13 +52,14 @@ SYNOPSIS
 
   GETTING HELP
     If you have questions about Proc::NiceSleep, you can get help from the
-    proc-nicesleep@joshr.com mailing list. You can subscribe to the list by
-    sending the word 'subscribe' (no quotes) in the body of an email to
+    proc-nicesleep-at-joshr.com mailing list (replace -at- with @). You can
+    subscribe to the list by sending the word 'subscribe' (no quotes) in the
+    body of an email to
 
              proc-nicesleep-request-at-joshr.com
 
     There is also a Proc::NiceSleep announcement mailing list, to subscribe
-    send an email with just the work 'subscribe' in the email to
+    send an email with just the word 'subscribe' in the email to
 
              proc-nicesleep-announce-request-at-joshr.com
 
@@ -70,17 +72,17 @@ DESCRIPTION
     sufficiently.
 
     By default Proc::NiceSleep expects to yield the process for one tenth
-    the amount of time the process runs without sleeping. This is expressed
-    by the default Sleep Factor of 0.10. Proc::NiceSleep can also be
-    configured to attempt to keep the average system load below a certain
-    threshhold through use of the max_load() function.
+    the amount of time that process runs. This is expressed by the default
+    Sleep Factor of 0.10. Proc::NiceSleep can also be configured to attempt
+    to keep the average system load below a certain threshhold through use
+    of the max_load() function.
 
     A convenient nice() function, which acts much like the shell command and
     executable of the same name, is also provided for easy, platform
     independent access to your system's priorities (if available).
 
     If Proc::NiceSleep autodetects the presence of the Time::HiRes module
-    and your operating system supports it then timing and yielding
+    (and your operating system supports it) then timing and yielding
     operations will occur with sub-second granularity. If not, no warning or
     error will be issued but Proc::NiceSleep operations will occur with a
     granularity of about one second. Sys::CpuLoad must be found for
@@ -129,7 +131,7 @@ DESCRIPTION
         Sets or gets the minimum run time, in seconds, depending on whether
         a number is passed or not. The minumum run time is the least amount
         of time that Proc::NiceSleep will allow the process to run between
-        sleeps. The default value is 1 second.
+        sleeps. The default value is 0.01 seconds.
 
     min_sleep_time ()
         Sets or gets the minimum amount time, in seconds, that maybe_sleep()
@@ -172,13 +174,12 @@ SEE ALSO
     Time::HiRes, Sys::CpuLoad
 
 COPYRIGHT
-      Copyright (c) 2002 Josh Rabinowitz
-    All rights reserved. This program is free software; you can
-    redistribute it and/or modify it under the same terms as Perl itself.  
+    Copyright (c) 2002 Josh Rabinowitz. All rights reserved. This program is
+    free software; you can redistribute it and/or modify it under the same
+    terms as Perl itself.
 
 ACKNOWLEDGEMENTS
     Proc::NiceSleep is loosely modeled on Lincoln Stein's CGI.pm, and on D.
-    Wegscheid and other's Time::HiRes.pm. Thanks to D. Wegscheid and others
-    for Time::HiRes.pm. Thanks also to Michael G Schwern, Terrence Brannon,
-    and David Alban for their valuable input.
+    Wegscheid and other's Time::HiRes.pm. Thanks to Michael G Schwern,
+    Terrence Brannon, and David Alban for their valuable input.
 

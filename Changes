@@ -1,4 +1,6 @@
 Revision history for Perl module Proc::NiceSleep.
+0.57  Tue Apr 23 2002
+      - fixed maybe_sleep() for case when both max_sleep and max_load are set
 0.56  Fri Mar 15 2002
       - updated version number in README
 0.55  Fri Mar 15 2002
