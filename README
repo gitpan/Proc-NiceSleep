@@ -1,9 +1,4 @@
-Proc/NiceSleep version 0.77
-
-STATUS
-   This module has been tested on linux, freebsd, and win32, and
-   should work on any machine that runs perl. Comments, ideas, bug 
-   reports, patches, and ports are greatly appreciated.
+Proc/NiceSleep version 0.81
 
 ABSTRACT
    Proc::NiceSleep is a Perl module which defines simple functions
@@ -166,6 +161,11 @@ CAVEATS
     Uncoordinated use of sleep() (and possibly of signal() and alarm()) in
     your perl program may cause your program to yield the system more or
     less than specified via Proc::NiceSleep policies.
+
+STATUS
+   This module has been tested on linux, freebsd, and win32, and
+   should work on any machine that runs perl. Comments, ideas, bug 
+   reports, patches, and ports are greatly appreciated.
 
 SEE ALSO
     Time::HiRes, Sys::CpuLoad

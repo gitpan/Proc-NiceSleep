@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl -wT
 # this is a short example that illustrates use of Proc::NiceSleep
 
 # Copyright (c) 2002 Josh Rabinowitz, All rights reserved
@@ -9,7 +9,7 @@ use strict;
 
 use Proc::NiceSleep qw(:all);
 eval ('require Sys::CpuLoad');
-if($@) { warn "Sys::CpuLoad or 'uptime' required for Proc::NiceSleep::max_load() to work"; }
+if($@) { die "Sys::CpuLoad required for Proc::NiceSleep::max_load() to work"; }
 
 print "Using Proc::NiceSleep v$Proc::NiceSleep::VERSION\n";
 

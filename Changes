@@ -1,4 +1,11 @@
 Revision history for Perl module Proc::NiceSleep.
+0.80  Tue Sep 20 2004
+      - adjust sleep time in response to how far above max_load the system is
+0.79  Tue Sep 14 2004
+      - changed warning output in example2.pl if Sys::CpuLoad not loaded
+      - added NUM_TIMES_MAYBE_SLEEP_CALLED counter
+0.78  Mon Sep 13 2004
+      - added NUM_TIMES_SLEPT counter
 0.77  Tue Aug 31 2004
       - added over_load_min_sleep_time() & over_load_sleep_drift()
       - added GetCpuLoad() for OS X,
