@@ -10,7 +10,7 @@ STATUS
 
 ABSTRACT
    Proc::NiceSleep is a Perl module which defines simple functions
-   to allow a process to yield use of the system in a quasi-intelligent
+   to allow a process to yield use of the system in an intelligent
    manner. See SYNOPSIS and DESCRIPTION below for details.
 
    The Proc::NiceSleep module is available on the Comprehensive Perl Archive 
@@ -37,7 +37,7 @@ DEPENDENCIES
    Sys::CpuLoad must be found and successfully loaded.
 
 NAME
-    Proc::NiceSleep - yield system in a quasi-intelligent fashion
+    Proc::NiceSleep - yield system in an intelligent fashion
 
 SYNOPSIS
       use Proc::NiceSleep qw( :all ); 

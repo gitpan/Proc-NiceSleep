@@ -1,4 +1,4 @@
-#!/usr/local/bin/perl -w
+#!/usr/bin/perl -w
 
 # this is a short example that illustrates use of Proc::NiceSleep
 

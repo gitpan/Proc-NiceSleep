@@ -6,10 +6,10 @@ MANIFEST
 Changes
 README
 LINKS
-TODO
 t/01-use.t
 t/02-benice.t
 t/03-invariant.t
 t/04-basicsleep.t
 t/05-basicload.t
 util/updatelatest.pl
+META.yml                                Module meta-data (added by MakeMaker)

@@ -1,4 +1,4 @@
-#!/usr/local/bin/perl -w
+#!/usr/bin/perl -w
 # this is a short example that illustrates use of Proc::NiceSleep
 
 # Copyright (c) 2002 Josh Rabinowitz, All rights reserved
@@ -30,6 +30,7 @@ exit(0);	# we're all finished here for now
 # you can get the idea here...  
 sub test_load {
 	my ($load1, $load5, $load15) = Sys::CpuLoad::load();
+	$load1 ||= 0;
 	show_message("Setting max_load to " . sprintf("%.2f", $load1 + 0.01));
 	max_load($load1 + 0.01);	
 	sleep_factor(0);
@@ -37,7 +38,7 @@ sub test_load {
 	my $lastshowtime = 0;
 	while(Proc::NiceSleep::time() - $t1 < 10) {	# for up to 10 seconds...	
 		my $t2 = Proc::NiceSleep::time();
-		my ($load) = Sys::CpuLoad::load();	# get 1 min load
+		my ($load) = Sys::CpuLoad::load() || 0;	# get 1 min load
 		show_message("Working...  load is " . sprintf("%.2f",  $load) . "." );
 		while(Proc::NiceSleep::time() - $t2 < 1) {	# for one second...
 			for (my $i=0; $i < 1000; $i++) { my $b = $i + $i; }	# work!
