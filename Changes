@@ -7,6 +7,4 @@ Revision history for Perl extension Proc::NiceSleep.
     - add nice() function
 0.41  Mon Feb 18 17:16:23 2002
     - changed named from Time::SmartSleep
-0.50  Mon Feb 18 14:12:00 2002
-	- prepare for first release
 

@@ -4,7 +4,9 @@ Makefile.PL
 example.pl
 MANIFEST
 README
+TODO
 t/01-basicload.t
 t/02-nice.t
 t/03-invariant.t
 t/04-basicsleep.t
+util/updatelatest.pl

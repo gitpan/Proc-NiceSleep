@@ -16,7 +16,7 @@ require Exporter;
 # we check for get/setpriority(), Proc::Processtable, and Time::HiRes 
 # in a fault-tolerant manner in init()
 
-our $VERSION = '0.46';
+our $VERSION = '0.47';
 
 our @ISA = qw(Exporter);
 
@@ -97,13 +97,11 @@ sub maybesleep {
 		$_totalruntime += ($t1 - $_lastsleeptime);
 		my $timetosleep = $_sleepfactor * $timepassed;
 		#print "timetosleep: $timetosleep\n";
-		unless($_havetimehires) {
-			$timetosleep = int($timetosleep + .5);	# round off.
-			if ($timetosleep <= 0) { $timetosleep = 1; } # can't be negative...
-		}
 		if($_havetimehires) {
 			Time::HiRes::sleep($timetosleep);	# YIELD the system via SLEEP
 		} else {
+			$timetosleep = int($timetosleep + .5);	# round off.
+			if ($timetosleep <= 0) { $timetosleep = 1; } # can't be neg or 0
 			CORE::sleep($timetosleep);	# actually YIELD the system via SLEEP
 		}
 		my $t2 = ($_havetimehires ? Time::HiRes::time() : CORE::time());
@@ -115,14 +113,13 @@ sub maybesleep {
 	}
 	return $slept;							# in case they wonder
 }
+# sets or gets, depending on whether it gets param or not
 sub sleepfactor {
 	unless (defined($_lastsleeptime)) { init(); }	# autoinit on first use
 	my $param = shift;
 	if (defined($param)) { $_sleepfactor = $param; } 
 	else { return $_sleepfactor; }
-}
-
-
+} 
 # sets or gets, depending on whether it gets param or not
 sub minruntime {
 	unless (defined($_lastsleeptime)) { init(); }	# autoinit on first use
@@ -151,7 +148,7 @@ sub Dump {
 #############################################################################
 #  THINGS AFTER HERE (until perldocs) ARE PRIVATE METHODS !!!
 #############################################################################
-# time() and sleep() are so test programs don't have to test for Time::HiRes
+# time() and sleep() are so test programs don't have to test for Time::HiRes$
 sub time  { ($_havetimehires ? Time::HiRes::time()    : CORE::time());    }
 sub sleep { ($_havetimehires ? Time::HiRes::sleep(@_) : CORE::sleep(@_)); }
 sub init {		# intended to be private
@@ -170,8 +167,9 @@ sub init {		# intended to be private
 
 	eval("use Proc::ProcessTable");  # we don't use this.... yet.
 	if ($@) { $_haveprocprocesstable = 0; } else { $_haveprocprocesstable = 1; }
+
 	eval('my $pri=getpriority(0,0); setpriority(0,0,$pri);');  
-		# check for setpriority() with a no-op
+		# check for setpriority() and setpriority() with a (hopefully) no-op
 	if ($@) { $_havesetpriority = 0; } else { $_havesetpriority = 1; }
 
 	$_lastsleeptime = ($_havetimehires ? Time::HiRes::time() : CORE::time());
@@ -285,22 +283,23 @@ No functions are exported by default.
 
 Sets or gets the priority of the process, as understood by the operating system.
 If passed an integer, nice() attempts to set priority of the process to the 
-value specified, and returns what value it believes the priority was set to. 
-If no parameter is passed, nice() attempts to query the operating system 
-for the priority of the process and returns.  If your OS doesn't support 
-priorities then nice() will likely always return 0.  
+value specified, and returns that value.  If no parameter is passed, 
+nice() attempts to query the operating system for the priority of the 
+process and return it.  If your OS doesn't support priorities then 
+nice() will likely always return 0.  
 
-The exact nice() values returned, and their meanings to the system,
-are system dependent, but usually range from -20 (signifying
-highest priority) to 20 (signifying lowest priority, 'nicest'). 
+The exact nice() values returned and recognized, and their meanings 
+to the system, are system dependent, but usually range from about 
+-20 (signifying highest priority) to 20 (signifying lowest priority, 
+'nicest'). 
 
 =item maybesleep ()
 
 Checks to see if this process should yield use of the system by
 issuing some kind of sleep at this point, and if so, does so 
 for an appropriate amount of time.  Returns 0 if no sleep was 
-performed, otherwise returns the amount of seconds maybesleep() 
-actually slept for.
+performed, otherwise returns the amount of seconds we think
+maybesleep() actually slept for.
 
 =item sleepfactor ()
 

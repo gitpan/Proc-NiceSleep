@@ -1,21 +1,24 @@
-Proc/NiceSleep version 0.46
+Proc/NiceSleep version 0.47
 
 STATUS
    This is BETA software; it seems to work, but use it at you own risk :).
    The API is subject to change until release 0.75, at which point it
-   will be considered stable.
+   will be considered stable. 
 
    Currently tested on linux and freebsd, but it should work on
    most machines that run perl. Comments, ideas, bug reports,
    patches, and ports are greatly appreciated.
 
 ABSTRACT
-   Proc::NiceSleep is a Perl module which defines subroutines
+   Proc::NiceSleep is a Perl module which defines simple functions
    to allow a process to yield use of the system in a quasi-intelligent
-   manner.
+   manner. See SYNOPSIS and DESCRIPTION below for details.
 
    The Proc::NiceSleep module is (will be) available on the
-   Comprehensive Perl Archive Network (CPAN).
+   Comprehensive Perl Archive Network (CPAN). The latest version 
+   should always be available at http://joshr.com/src/ , 
+   http://cpan.perl.org/authors/id/J/JO/JOSHR/ and mirrors
+   may lag behind.
 
 INSTALLATION
    To install this module type the following:
@@ -74,22 +77,23 @@ DESCRIPTION
     nice ()
         Sets or gets the priority of the process, as understood by the
         operating system. If passed an integer, nice() attempts to set
-        priority of the process to the value specified, and returns what
-        value it believes the priority was set to. If no parameter is
-        passed, nice() attempts to query the operating system for the
-        priority of the process and returns. If your OS doesn't support
-        priorities then nice() will likely always return 0.
+        priority of the process to the value specified, and returns that
+        value. If no parameter is passed, nice() attempts to query the
+        operating system for the priority of the process and return it. If
+        your OS doesn't support priorities then nice() will likely always
+        return 0.
 
-        The exact nice() values returned, and their meanings to the system,
-        are system dependent, but usually range from -20 (signifying highest
-        priority) to 20 (signifying lowest priority, 'nicest').
+        The exact nice() values returned and recognized, and their meanings
+        to the system, are system dependent, but usually range from about
+        -20 (signifying highest priority) to 20 (signifying lowest priority,
+        'nicest').
 
     maybesleep ()
         Checks to see if this process should yield use of the system by
         issuing some kind of sleep at this point, and if so, does so for an
         appropriate amount of time. Returns 0 if no sleep was performed,
-        otherwise returns the amount of seconds maybesleep() actually slept
-        for.
+        otherwise returns the amount of seconds we think maybesleep()
+        actually slept for.
 
     sleepfactor ()
         Sets or gets the sleep factor depending on whether a number is

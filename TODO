@@ -1,0 +1,10 @@
+# TODO list for this module
+# Josh Rabinowitz
+
+* actually watch operation of system (disks, cpu, net, ...) and
+ throttle as configured
+
+* maybe go OO, and maybe
+
+* support procedural and OO programming styles simultaneously 
+  (ala CGI.pm) 
