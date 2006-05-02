@@ -11,4 +11,6 @@ t/02-benice.t
 t/03-invariant.t
 t/04-basicsleep.t
 t/05-basicload.t
+LICENSE                                 For http://search.cpan.org/~joshr/Proc-NiceSleep
 META.yml                                Module meta-data (added by MakeMaker)
+

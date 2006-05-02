@@ -1,5 +1,12 @@
 Revision history for Perl module Proc::NiceSleep.
-
+0.85 Tue May 02 2006
+	- tagged code in CVS correctly (no user changes)
+0.84 Tue May 02 2006
+	- not released
+	- added reset_all() method, to reset as if we just started the process
+	- bugfix for when Time::HiRes is not installed
+	- added LICENSE file for http://search.cpan.org/~joshr/Proc-NiceSleep
+	- added yield( $maxsleep ): calls maybe_sleep() till it returns 0 or maxsleep seconds have passed
 0.83 Sat Feb 26 2005
 	- more documentation, clean up comments and Changes file
 	- localize '%ENV' for taint-safety under bash
