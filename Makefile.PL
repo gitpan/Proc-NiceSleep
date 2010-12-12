@@ -3,9 +3,9 @@ use ExtUtils::MakeMaker;
 # the contents of the Makefile that is written.
 WriteMakefile(
     'NAME'		=> 'Proc::NiceSleep',
-    'VERSION_FROM'	=> 'NiceSleep.pm', # finds $VERSION
+    'VERSION_FROM'	=> 'lib/Proc/NiceSleep.pm', # finds $VERSION
     'PREREQ_PM'		=> {}, # e.g., Module::Name => 1.1
     ($] >= 5.005 ?    ## Add these new keywords supported since 5.005
-      (ABSTRACT_FROM => 'NiceSleep.pm', # retrieve abstract from module
-       AUTHOR     => 'Josh Rabinowitz <joshr-proc-nicesleep@joshr.com>') : ()),
+      (ABSTRACT_FROM => 'lib/Proc/NiceSleep.pm', # retrieve abstract from module
+       AUTHOR     => 'Josh Rabinowitz <Josh Rabinowitz>') : ()),
 );

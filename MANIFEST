@@ -1,4 +1,4 @@
-NiceSleep.pm
+lib/Proc/NiceSleep.pm
 Makefile.PL
 examples/example1.pl
 examples/example2.pl
