@@ -1,16 +1,20 @@
-lib/Proc/NiceSleep.pm
+ChangeLog
+Changes
+LICENSE
+MANIFEST
+META.yml
 Makefile.PL
+README
+dist.ini
 examples/example1.pl
 examples/example2.pl
 examples/example3.pl
-MANIFEST
-Changes
-README
+lib/Proc/NiceSleep.pm
 t/01-use.t
 t/02-benice.t
 t/03-invariant.t
 t/04-basicsleep.t
 t/05-basicload.t
-LICENSE                                 For http://search.cpan.org/~joshr/Proc-NiceSleep
-META.yml                                Module meta-data (added by MakeMaker)
-
+t/06-loadfunction.t
+t/07-reset.t
+t/release-pod-syntax.t
